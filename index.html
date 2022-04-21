@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <head>
+        <meta charset='UTF-8'>
+        <script src='https://unpkg.com/react@16.3.1/umd/react.production.min.js'></script>
+        <script src='https://unpkg.com/react-dom@16.3.1/umd/react-dom.production.min.js'>    </script>
+        <script src='https://unpkg.com/react-router-dom@5.0.0/umd/react-router-dom.min.js'></script>
+        <script src='https://unpkg.com/babel-standalone@6.26.0/babel.js'></script>
+        <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    </head>
+
+</head>
+
+<body>
+
+    <script src="./utils/foodAPI.js"></script>
+    <div id="root"></div>
+
+
+    <script type="text/babel">
+
+        app_key = "78bef5ee6754e158e1dd96dc0118c67c"
+        app_id = "b0ad74e6"
+
+
+        // console.log("+++++++")
+        // console.log(APIcall("apple"))
+        // console.log("+++++++")
+        function App() {
+
+            const [food, setFood] = React.useState({})
+            const [ing, setIng] = React.useState("")
+
+            // React.useEffect(() => {TALK ABOUT MORE ON MONDAY
+            //     console.log("^^^^")
+            //     APIcall("Banana")
+            //     console.log("^^^^")
+            // }, [])
+//ALSO TALK ABOUT ADDING THE UTILS
+            function APIcall(food) {
+                console.log("PPPPPPPPPP")
+                
+                fetch(`https://api.edamam.com/api/nutrition-data?app_id=${app_id}&app_key=${app_key}&nutrition-type=cooking&ingr=${food}`)
+                    .then(data => data.json())
+                    .then(foodData => {
+                        // var cautions = foodData.cautions[0]
+                        console.log("%%%%%%%%%%%%%%")
+                        console.log(foodData)
+                        setFood(foodData)
+
+                    })
+            }
+
+            function handleFormSubmit(event) {
+                event.preventDefault()
+                console.log("INSIDE HANDLE FORM SUBMIT")
+                console.log(ing)
+               APIcall(ing)
+            }
+
+            function setIngred(ingr){
+                console.log("INSIDE ingredient")
+                let ingredient = ing+ingr
+                setIng(ingredient)
+            }
+
+
+            return (
+                <div>
+                    <h1>Hey user type in your food </h1>
+                    <form onSubmit={handleFormSubmit}>
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setIngred(e.target.value)}//talk about more on MOnday
+                        />
+                    </form>
+
+                    <h2>{ing}</h2>
+                    <h3>{food?food.cautions:""}</h3>
+                </div>
+            )
+        }
+
+        ReactDOM.render(<App />, document.querySelector('#root'));  
+    </script>
+</body>
+
+</html>
